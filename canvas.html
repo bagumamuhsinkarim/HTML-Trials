@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Car Scene</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #87CEEB; /* Sky blue */
+        }
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="1000" height="500"></canvas>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // The sun with rays
+        function Sun(x, y, radius) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'yellow';
+            ctx.fill();
+            ctx.closePath();
+
+            // sun rays
+            for (let i = 0; i < 12; i++) {
+                const angle = (Math.PI / 6) * i;
+                const x1 = x + Math.cos(angle) * radius;
+                const y1 = y + Math.sin(angle) * radius;
+                const x2 = x + Math.cos(angle) * (radius + 15);
+                const y2 = y + Math.sin(angle) * (radius + 15);
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = 'rgba(255, 255, 0, 0.5)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.closePath();
+            }
+        }
+
+        function Grass(){
+            ctx.fillStyle ='green';
+            ctx.fillRect(0, 300, canvas.width, 200);
+        }
+
+        // Draw a tree
+        function Tree() {
+            // Draw the trunk
+            ctx.fillStyle = 'saddlebrown';
+            ctx.fillRect(100, 200, 20, 190);
+
+            // Draw the leaves
+            ctx.fillStyle = 'green';
+            ctx.beginPath();
+            ctx.arc(110, 160, 60, 0, Math.PI * 2, true);  // Tree top part
+            ctx.arc(70, 220, 60, 0, Math.PI * 2, true);  // Left part
+            ctx.arc(150, 220, 60, 0, Math.PI * 2, true);  // Right part
+            ctx.fill();
+        }
+
+        // Draw a car
+function Car(x, y) {
+    // Car body
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(x, y, 80, 30); // Main body
+    ctx.fillRect(x + 10, y - 20, 60, 20); // Car roof
+
+    // Wheels
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(x + 20, y + 30, 10, 0, Math.PI * 2); // Left wheel
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x + 60, y + 30, 10, 0, Math.PI * 2); // Right wheel
+    ctx.fill();
+
+}
+
+        function House(){
+           // Creating a color gradient for the house shape
+           let houseGradient = ctx.createLinearGradient(0, 250, 0, 400);
+            houseGradient.addColorStop(0, '#5A4B3B');
+            houseGradient.addColorStop(1, '#8B7355');
+            ctx.fillStyle = houseGradient;
+
+            // house shape
+            ctx.beginPath();
+            ctx.moveTo(450, 250);
+            ctx.lineTo(650, 250);
+            ctx.lineTo(650, 400);
+            ctx.lineTo(450, 400);
+            ctx.closePath();
+            ctx.fill(); // Fill the shape with the gradient
+
+            // Roof
+            ctx.beginPath();
+            ctx.moveTo(420, 250); // Bottom left corner of the roof
+            ctx.lineTo(680, 250); // Bottom right corner of the roof
+            ctx.lineTo(650, 180); // Top right corner of the roof
+            ctx.lineTo(450, 180); // Top left corner of the roof
+            ctx.closePath();
+            ctx.fillStyle = 'maroon';  // Dark red roof
+            ctx.fill();
+
+             // Windows
+            ctx.fillStyle = '#DCDCDC';  // Lighter grey for glass
+            ctx.fillRect(470, 275, 50, 50);  // Left window
+            ctx.fillRect(580, 275, 50, 50);  // Right window
+
+            // Door with handle
+            ctx.fillStyle = '#654321';
+            ctx.fillRect(525, 320, 50, 80);  // Main door
+            ctx.fillStyle = 'gold';
+            ctx.beginPath();
+            ctx.arc(565, 360, 5, 0, Math.PI * 2, true);  // Door handle
+            ctx.fill();
+        }
+
+        function drawObject(){        
+            Sun(800, 100, 40);
+            Grass();
+            Tree();
+            Car(150, 350);
+            House();
+        }
+
+        drawObject();
+
+    </script>
+</body>
+</html>
