@@ -11,10 +11,11 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #87CEEB; /* Sky blue */
+            background-color: rgb(116, 163, 147); /* Sky blue */
         }
         canvas {
             border: 1px solid #000;
+            background-color: #87CEEB;
         }
     </style>
 </head>
@@ -71,26 +72,48 @@
         }
 
         // Draw a car
-function Car(x, y) {
-    // Car body
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(x, y, 80, 30); // Main body
-    ctx.fillRect(x + 10, y - 20, 60, 20); // Car roof
+        function Car(x, y) {
+            // the body of the car
+            ctx.beginPath();
+            ctx.rect(x, y, 200, 50);
+            ctx.fillStyle = 'blue';
+            ctx.fill();
+            ctx.stroke();
 
-    // Wheels
-    ctx.fillStyle = 'black';
-    ctx.beginPath();
-    ctx.arc(x + 20, y + 30, 10, 0, Math.PI * 2); // Left wheel
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(x + 60, y + 30, 10, 0, Math.PI * 2); // Right wheel
-    ctx.fill();
+            // the top of the car
+            ctx.beginPath();
+            ctx.moveTo(x + 50, y);
+            ctx.lineTo(x + 70, y - 30);
+            ctx.lineTo(x + 130, y - 30);
+            ctx.lineTo(x + 150, y);
+            ctx.closePath();
+            ctx.fillStyle = 'blue';
+            ctx.fill();
+            ctx.stroke();
 
-}
+            // wheels
+            ctx.beginPath();
+            ctx.arc(x + 30, y + 60, 15, 0, Math.PI * 2);
+            ctx.arc(x + 170, y + 60, 15, 0, Math.PI * 2);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+
+             // windows
+            ctx.fillStyle = 'lightblue';
+            ctx.fillRect(x + 75, y - 25, 50, 20);
+
+            // doors
+            ctx.fillStyle = 'grey';
+            ctx.fillRect(x + 90, y, 60, 35);
+
+            // door handle
+            ctx.fillStyle = 'silver';
+            ctx.fillRect(x + 140, y + 15, 5, 10);
+        }
 
         function House(){
-           // Creating a color gradient for the house shape
-           let houseGradient = ctx.createLinearGradient(0, 250, 0, 400);
+            // Creating a color gradient for the house shape
+            let houseGradient = ctx.createLinearGradient(0, 250, 0, 400);
             houseGradient.addColorStop(0, '#5A4B3B');
             houseGradient.addColorStop(1, '#8B7355');
             ctx.fillStyle = houseGradient;
@@ -114,7 +137,7 @@ function Car(x, y) {
             ctx.fillStyle = 'maroon';  // Dark red roof
             ctx.fill();
 
-             // Windows
+                // Windows
             ctx.fillStyle = '#DCDCDC';  // Lighter grey for glass
             ctx.fillRect(470, 275, 50, 50);  // Left window
             ctx.fillRect(580, 275, 50, 50);  // Right window
@@ -132,7 +155,7 @@ function Car(x, y) {
             Sun(800, 100, 40);
             Grass();
             Tree();
-            Car(150, 350);
+            Car(150, 315);
             House();
         }
 
