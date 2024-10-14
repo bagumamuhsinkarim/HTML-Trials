@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: rgb(116, 163, 147);
+        }
+
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>    
+</head>
+<body>
+
+    <canvas id="carCanvas" width="1200" height=" 950"></canvas>
+
+    <script>
+        const canvas = document.getElementById('carCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        //background    
+        ctx.fillStyle = 'skyblue';
+        ctx.fillRect(0, 0, 1200, 750); // x, y, width, height
+        
+        //compund
+        ctx.fillStyle = '#f4a460';
+        ctx.fillRect(0, 420, 1200, 200); // x, y, width, height    
+
+        //road
+        ctx.fillStyle = '#2f4f4f';
+        ctx.fillRect(0, 600, 1200, 200); // x, y, width, height   
+        
+        // house
+        function drawHouse(){
+            ctx.fillStyle = 'grey';
+            ctx.fillRect(130, 250, 570, 250); // x, y, width, height
+
+            // top house
+            ctx.fillStyle = 'grey';
+            ctx.fillRect(130, 90, 310, 230); // x, y, width, height
+
+            // top house line
+            ctx.fillStyle = 'black';
+            ctx.fillRect(130, 250, 310, 5); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(130, 295, 310, 5); // x, y, width, height
+
+            // top left house
+            ctx.fillStyle = 'purple';
+            ctx.fillRect(440, 50, 220, 140); // x, y, width, height
+            ctx.fillRect(440, 190, 120, 120); // x, y, width, height
+
+            // windows on the main house
+            ctx.fillStyle = 'white';
+            ctx.fillRect(200, 300, 80, 160); // x, y, width, height (left window)
+            ctx.fillRect(285, 300, 80, 160); // x, y, width, height (right window)
+
+            // windows on the top house
+            ctx.fillRect(200, 140, 150, 90); // x, y, width, height (left window)
+
+            // gate
+            ctx.fillStyle = 'white';
+            ctx.fillRect(555, 395, 120, 100); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(560, 400, 120, 100); // x, y, width, height
+
+            ctx.fillStyle = 'white';
+            ctx.fillRect(605, 400, 3, 100); // x, y, width, height
+
+            ctx.fillStyle = 'grey';
+            ctx.fillRect(560, 190, 100, 60); // x, y, width, height
+
+            //line
+            ctx.fillStyle = 'purple';
+            ctx.fillRect(560, 250, 140, 5); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(445,315, 70, 150); // x, y, width, height
+
+            ctx.fillStyle = 'white';
+            ctx.fillRect(450,320, 70, 150); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(470,320, 3, 150); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(465,400, 3, 3); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(450,450,70, 20); // x, y, width, height
+
+            ctx.fillStyle = 'purple';
+            ctx.fillRect(445,455,80, 20); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(440,460,90, 20); // x, y, width, height
+
+            ctx.fillStyle = 'purple';
+            ctx.fillRect(435,465,100, 20); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(430,470,110, 20); // x, y, width, height
+
+            ctx.fillStyle = 'purple';
+            ctx.fillRect(425,475,120, 20); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(420,480,130, 20); // x, y, width, height
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(560,200, 70, 50); // x, y, width, height
+
+            ctx.fillStyle = 'white';
+            ctx.fillRect(565,205, 65, 45); // x, y, width, height
+
+            ctx.fillStyle = 'grey';
+            ctx.fillRect(590,205, 3, 45); // x, y, width, height
+
+            ctx.fillStyle = 'grey';
+            ctx.fillRect(250,140, 3, 90); // x, y, width, height
+        }
+        drawHouse();
+
+        // First tree
+        function drawTree(startX, startY, length, angle, branchWidth, color1, color2) {
+            ctx.beginPath();
+            ctx.save();
+
+            ctx.strokeStyle = color1;
+            ctx.fillStyle = color2;
+            ctx.lineWidth = branchWidth;
+
+            ctx.translate(startX, startY);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -length);
+            ctx.stroke();
+
+            // If the length of the branch is small enough, draw leaves
+            if (length < 10) {
+                ctx.beginPath();
+                ctx.arc(0, -length, 10, 0, Math.PI * 2);  // Draw a leaf
+                ctx.fillStyle = 'green';
+                ctx.fill();
+                ctx.restore();
+                return;
+            }
+
+            // Recursive branching
+            drawTree(0, -length, length * 0.7, angle - 15, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.7, angle + 15, branchWidth * 0.7, color1, color2);
+
+            ctx.restore();
+        } 
+        drawTree(1000, 460, 120, 0, 15, 'brown', 'green');  // Main trunk
+
+        // car          
+        function drawCar(ctx) {
+
+            function carBody() {
+                // ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+                ctx.fillStyle = 'red';
+                ctx.beginPath();
+                ctx.moveTo(520, 600);
+                ctx.bezierCurveTo(490, 600, 450, 600, 400, 630);
+                ctx.bezierCurveTo(390, 640, 380, 650, 390, 650);
+                ctx.bezierCurveTo(400, 670, 390, 670, 400, 670);
+                ctx.lineTo(430, 680);
+                ctx.arc(500, 679, 45, Math.PI, 0);
+                ctx.lineTo(750, 679);
+                ctx.arc(830, 679, 45, Math.PI, 0);
+                ctx.lineTo(930, 670)
+                ctx.bezierCurveTo(950, 630, 960, 630, 940, 620);
+                ctx.bezierCurveTo(880, 580, 880, 580, 770, 530);
+                ctx.bezierCurveTo(650, 530, 650, 535, 650, 535);
+                ctx.bezierCurveTo(600, 560, 650, 535, 520, 600);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            function carTires() {    
+                // front tires
+                ctx.beginPath();
+                ctx.arc(500, 679, 40, Math.PI, 10);
+                ctx.closePath();
+                ctx.fillStyle = 'black';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(500, 679, 28, Math.PI, 10);
+                ctx.closePath();
+                ctx.fillStyle = 'white';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(500, 679, 15, Math.PI, 10);
+                ctx.closePath();
+                ctx.fillStyle = 'black';
+                ctx.fill();
+
+                // back tire
+                ctx.beginPath();
+                ctx.arc(830, 679, 40, Math.PI, 10);
+                ctx.closePath();
+                ctx.fillStyle = 'black';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(830, 679, 30, Math.PI, 10);
+                ctx.closePath();
+                ctx.fillStyle = 'white';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(830, 679, 20, Math.PI, 10);
+                ctx.closePath();
+                ctx.fillStyle = 'black';
+                ctx.fill();
+
+                ctx.fillStyle = 'black';
+                ctx.fillRect(498, 650, 4, 60);
+                ctx.fillStyle = 'black';
+                ctx.fillRect(828, 644, 4, 65);
+                ctx.fillStyle = 'black';
+                ctx.fillRect(800, 675, 65, 4);
+                ctx.fillStyle = 'black';
+                ctx.fillRect(470, 675, 65, 4);
+
+            }
+
+            function carWindows() {
+                ctx.beginPath();
+                ctx.moveTo(540, 600);
+                ctx.bezierCurveTo(650, 540, 650, 545, 700, 540);
+                ctx.lineTo(690, 587);
+                ctx.closePath();
+                ctx.fillStyle = 'gray';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(710, 540);
+                ctx.bezierCurveTo(720, 540, 750, 530, 850, 580);
+                ctx.bezierCurveTo(850, 590, 835, 590, 830, 590);
+                ctx.bezierCurveTo(850, 590, 700, 590, 710, 590);
+                ctx.closePath()
+                ctx.fillStyle = '#373535';
+                ctx.fill();
+            }
+            carBody();
+            carWindows();
+            carTires();
+        }
+        drawCar(ctx);
+        
+        //compund after street
+        ctx.fillStyle = 'green';
+        ctx.fillRect(0, 790, 1200, 160); // x, y, width, height    
+
+        function drawTree2(startX, startY, length, angle, branchWidth, color1, color2) {
+            ctx.beginPath();
+            ctx.save();
+
+            ctx.strokeStyle = color1;
+            ctx.fillStyle = color2;
+            ctx.lineWidth = branchWidth;
+
+            ctx.translate(startX, startY);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -length);
+            ctx.stroke();
+
+            // If the length of the branch is small enough, draw leaves
+            if (length < 10) {
+                ctx.beginPath();
+                ctx.arc(0, -length, 10, 0, Math.PI * 2);  // Draw a leaf
+                ctx.fillStyle = 'green';
+                ctx.fill();
+                ctx.restore();
+                return;
+            }
+
+            // Recursive branching
+            drawTree(0, -length, length * 0.7, angle - 15, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.7, angle + 15, branchWidth * 0.7, color1, color2);
+
+            ctx.restore();
+        }
+        drawTree(250, 850, 120, 0, 10, 'brown', 'green');
+
+        function drawTree3(startX, startY, length, angle, branchWidth, color1, color2) {
+            ctx.beginPath();
+            ctx.save();
+
+            ctx.strokeStyle = color1;
+            ctx.fillStyle = color2;
+            ctx.lineWidth = branchWidth;
+
+            ctx.translate(startX, startY);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -length);
+            ctx.stroke();
+
+            // If the length of the branch is small enough, draw leaves
+            if (length < 10) {
+                ctx.beginPath();
+                ctx.arc(0, -length, 10, 0, Math.PI * 2);  // Draw a leaf
+                ctx.fillStyle = 'green';
+                ctx.fill();
+                ctx.restore();
+                return;
+            }
+
+            // Recursive branching
+            drawTree(0, -length, length * 0.7, angle - 15, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.7, angle + 15, branchWidth * 0.7, color1, color2);
+
+            ctx.restore();
+        }
+        drawTree3(900, 850, 120, 0, 10, 'brown', 'green'); // Adjust parameters as needed
+    </script>
+</body>
+</html>
