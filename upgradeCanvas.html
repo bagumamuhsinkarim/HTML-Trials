@@ -159,7 +159,7 @@
                 ctx.closePath();
             }
         }
-        Sun(920, 100, 40);
+        Sun(920, 80, 40);
 
         // First tree
         function drawTree(startX, startY, length, angle, branchWidth, color1, color2) {
@@ -189,7 +189,9 @@
             // Recursive branching
             drawTree(0, -length, length * 0.7, angle - 15, branchWidth * 0.7, color1, color2);
             drawTree(0, -length, length * 0.7, angle + 15, branchWidth * 0.7, color1, color2);
-
+            drawTree(0, -length, length * 0.5, angle + 20, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.5, angle - 20, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.4, angle + 2, branchWidth * 0.7, color1, color2);
             ctx.restore();
         } 
         drawTree(1000, 460, 120, 0, 15, 'brown', 'green');  // Main trunk
@@ -329,10 +331,12 @@
             // Recursive branching
             drawTree(0, -length, length * 0.7, angle - 15, branchWidth * 0.7, color1, color2);
             drawTree(0, -length, length * 0.7, angle + 15, branchWidth * 0.7, color1, color2);
-
+            drawTree(0, -length, length * 0.5, angle + 20, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.5, angle - 20, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.4, angle + 2, branchWidth * 0.7, color1, color2);
             ctx.restore();
         }
-        drawTree2(250, 850, 120, 0, 10, 'brown', 'green');
+        drawTree2(180, 850, 120, 0, 10, 'brown', 'green');
 
         function drawTree3(startX, startY, length, angle, branchWidth, color1, color2) {
             ctx.beginPath();
@@ -361,10 +365,12 @@
             // Recursive branching
             drawTree(0, -length, length * 0.7, angle - 15, branchWidth * 0.7, color1, color2);
             drawTree(0, -length, length * 0.7, angle + 15, branchWidth * 0.7, color1, color2);
-
+            drawTree(0, -length, length * 0.5, angle + 20, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.5, angle - 20, branchWidth * 0.7, color1, color2);
+            drawTree(0, -length, length * 0.4, angle + 2, branchWidth * 0.7, color1, color2);
             ctx.restore();
         }
-        drawTree3(900, 850, 120, 0, 10, 'brown', 'green'); // Adjust parameters as needed
+        drawTree3(1090, 820, 120, 0, 10, 'brown', 'green'); // Adjust parameters as needed
     </script>
 </body>
 </html>
